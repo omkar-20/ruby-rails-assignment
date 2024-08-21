@@ -19,7 +19,7 @@ class TodosController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-  
+
   def edit
     @todo = Todo.find(params[:id])
   end
@@ -42,7 +42,8 @@ class TodosController < ApplicationController
   end
 
   private
-    def todo_params
-      params.require(:todo).permit(:title, :description, :completed)
-    end
+
+  def todo_params
+    params.require(:todo).permit(:title, :description, :completed)
+  end
 end
