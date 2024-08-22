@@ -67,3 +67,5 @@ group :test do
 end
 
 gem 'rubocop', require: false
+gem 'jwt'
+gem 'bcrypt', '~> 3.1.7'
