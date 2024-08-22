@@ -1,4 +1,6 @@
 class TodosController < ApplicationController
+  before_action :authenticate_user
+
   def index
     @todos = Todo.all
   end
@@ -45,5 +47,21 @@ class TodosController < ApplicationController
 
   def todo_params
     params.require(:todo).permit(:title, :description, :completed)
+  end
+
+  private
+
+  def authenticate_user
+    token = request.headers['Authorization'].split(' ')[1] rescue nil
+    if token
+      begin
+        decoded_token = JWT.decode(token, Rails.application.secrets.secret_key_base)[0]
+        @current_user = User1.find(decoded_token['user_id'])
+      rescue JWT::DecodeError
+        render json: { error: 'Unauthorized' }, status: :unauthorized
+      end
+    else
+      render json: { error: 'Unauthorized' }, status: :unauthorized
+    end
   end
 end

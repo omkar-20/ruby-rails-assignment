@@ -3,4 +3,5 @@ Rails.application.routes.draw do
 
   resources :todos
 
+  post 'login', to: 'sessions#create'
 end
